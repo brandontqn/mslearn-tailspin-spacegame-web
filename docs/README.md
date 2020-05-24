@@ -1,5 +1,7 @@
 [![Build Status](https://dev.azure.com/BrandonNguyen/Space%20Game%20-%20web%20-%20Pipeline/_apis/build/status/brandontqn.mslearn-tailspin-spacegame-web?branchName=master)](https://dev.azure.com/BrandonNguyen/Space%20Game%20-%20web%20-%20Pipeline/_build/latest?definitionId=4&branchName=master)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=brandontqn_mslearn-tailspin-spacegame-web)](https://sonarcloud.io/dashboard?id=brandontqn_mslearn-tailspin-spacegame-web)
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
