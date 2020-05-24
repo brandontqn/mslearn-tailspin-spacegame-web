@@ -1,0 +1,7 @@
+organization=brandontqn
+projectKey=brandontqn_mslearn-tailspin-spacegame-web
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.8217
+dashboardUrl=https://sonarcloud.io/dashboard?id=brandontqn_mslearn-tailspin-spacegame-web
+ceTaskId=AXJEV0miHJylEwFiHnL7
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXJEV0miHJylEwFiHnL7
