@@ -1,23 +1,15 @@
 trigger:
-<<<<<<< HEAD
-- '*'
-=======
   branches:
     include:
     - '*'
   paths:
     exclude:
     - 'docs/*'
->>>>>>> master
 
 pool:
   vmImage: 'ubuntu-16.04'
   demands:
-<<<<<<< HEAD
     - npm
-=======
-  - npm
->>>>>>> master
 
 variables:
   buildConfiguration: 'Release'
