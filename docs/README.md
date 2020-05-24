@@ -1,3 +1,6 @@
+[![Build Status](https://dev.azure.com/BrandonNguyen/Space%20Game%20-%20web%20-%20Pipeline/_apis/build/status/brandontqn.mslearn-tailspin-spacegame-web?branchName=master)](https://dev.azure.com/BrandonNguyen/Space%20Game%20-%20web%20-%20Pipeline/_build/latest?definitionId=4&branchName=master)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=brandontqn_mslearn-tailspin-spacegame-web)](https://sonarcloud.io/dashboard?id=brandontqn_mslearn-tailspin-spacegame-web)
 
 # Contributing
 
@@ -29,3 +32,6 @@ Privacy information can be found at https://privacy.microsoft.com/en-us/
 
 Microsoft and any contributors reserve all other rights, whether under their respective copyrights, patents,
 or trademarks, whether by implication, estoppel or otherwise.
+
+# Test Change
+This commit should not trigger a pipeline build. Yeehaw.
