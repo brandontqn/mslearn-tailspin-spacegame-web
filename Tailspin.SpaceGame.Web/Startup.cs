@@ -58,9 +58,12 @@ namespace TailSpin.SpaceGame.Web
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCookiePolicy();
+            app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

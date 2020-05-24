@@ -1,10 +1,23 @@
 trigger:
+<<<<<<< HEAD
 - '*'
+=======
+  branches:
+    include:
+    - '*'
+  paths:
+    exclude:
+    - 'docs/*'
+>>>>>>> master
 
 pool:
   vmImage: 'ubuntu-16.04'
   demands:
+<<<<<<< HEAD
     - npm
+=======
+  - npm
+>>>>>>> master
 
 variables:
   buildConfiguration: 'Release'
@@ -15,7 +28,13 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
   inputs:
-    version: '$(dotnetSdkVersion)'
+    packageType: sdk
+    version: $(dotnetSdkVersion)
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK 2.1.505 for SonarCloud'
+  inputs:
+    version: '2.1.505'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -38,12 +57,70 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project - $(buildConfiguration)'
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare SonarCloud analysis'
   inputs:
-    command: 'build'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
-    projects: '**/*.csproj'
+    SonarCloud: 'SonarCloud connection 1'
+    organization: '$(SonarOrganization)'
+    scannerMode: 'MSBuild'
+    projectKey: '$(SonarProjectKey)'
+    projectName: '$(SonarProjectName)'
+    projectVersion: '$(Build.BuildNumber)'
+    extraProperties: |
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
+      sonar.exclusions=**/wwwroot/lib/**/*
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['System.PullRequest.TargetBranch'], 'master')
+    )
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install ReportGenerator'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'install --global dotnet-reportgenerator-globaltool'
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Debug'
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Release'
+
+- script: |
+    reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
+  displayName: 'Create code coverage report'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud code analysis'
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['System.PullRequest.TargetBranch'], 'master')
+    )
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud quality gate results'
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['System.PullRequest.TargetBranch'], 'master')
+    )
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish the project - $(buildConfiguration)'
@@ -53,6 +130,8 @@ steps:
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: WhiteSource Bolt@20
   displayName: 'Run WhiteSource Bolt'

@@ -26,6 +26,9 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# Visual Studio Code
+.vscode/
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -137,6 +140,8 @@ _TeamCity*
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+
+[Cc]ode[Cc]overage/
 
 # NCrunch
 _NCrunch_*
@@ -330,3 +335,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# ReportGenerator generated files
+CodeCoverage/
